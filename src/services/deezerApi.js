@@ -1,29 +1,31 @@
-// src/services/deezerApi.js
-// No PROXY_URL needed here anymore! The React Dev Server handles it.
+// src/services/deezerApi.js (Updated for Vercel Deployment)
 
-const fetchDeezer = async (endpoint) => {
+// BASE_URL will now point to your Vercel API route
+// In development, this will be http://localhost:3000/api
+// In production (Vercel), this will be https://your-vercel-app.vercel.app/api
+const BASE_URL = '/api/deezer'; // This is the path to your Vercel Serverless Function
+
+const fetchDeezer = async (deezerEndpoint) => { // Renamed parameter to avoid confusion
+    // Construct the URL to your Vercel API route
+    // Example: /api/deezer?endpoint=/chart
+    const url = `${BASE_URL}?endpoint=${encodeURIComponent(deezerEndpoint)}`;
+
     try {
-        const response = await fetch(endpoint);
+        const response = await fetch(url);
 
-        console.log(`Fetching: ${endpoint}`);
-        console.log(`Response Status for ${endpoint}: ${response.status}`);
+        console.log(`Fetching from Vercel proxy: ${url}`);
+        console.log(`Response Status from Vercel proxy: ${response.status}`);
 
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`API Error for ${endpoint}: ${response.status} - ${errorText}`);
-            // Parse error JSON if available, otherwise use text
-            try {
-                const errorJson = JSON.parse(errorText);
-                throw new Error(`HTTP error! Status: ${response.status} - ${errorJson.error?.message || errorText || response.statusText}`);
-            } catch (e) {
-                throw new Error(`HTTP error! Status: ${response.status} - ${errorText || response.statusText}`);
-            }
+            const errorData = await response.json(); // Vercel function returns JSON error
+            console.error(`API Error from Vercel proxy for ${deezerEndpoint}: ${response.status} -`, errorData);
+            throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(`Data for ${endpoint}:`, data);
+        console.log(`Data from Vercel proxy for ${deezerEndpoint}:`, data);
         return data;
     } catch (error) {
-        console.error("Error fetching from Deezer API:", error);
+        console.error("Error fetching from Deezer API via Vercel proxy:", error);
         return { error: error.message || "Failed to fetch data from Deezer." };
     }
 };
@@ -34,42 +36,39 @@ export const getDeezerCharts = async () => {
 };
 
 export const getDeezerBrowseNewReleases = async () => {
-    const data = await fetchDeezer('/editorial/0/releases'); // This might also be problematic, consider checking it.
+    const data = await fetchDeezer('/editorial/0/releases');
     return data && Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []);
 };
 
 export const getDeezerFeaturedPlaylists = async () => {
-    // FIX: Changed to fetch from /chart and extract playlists from it
-    const chartData = await fetchDeezer('/chart');
-    // The /chart endpoint returns an object like { tracks: { data: [] }, albums: { data: [] }, playlists: { data: [] } }
-    // We want the playlists data from this response.
+    const chartData = await getDeezerCharts(); // Reuse getDeezerCharts to get the full chart data
     return chartData?.playlists?.data && Array.isArray(chartData.playlists.data)
         ? chartData.playlists.data
         : [];
 };
+
 
 export const getDeezerGenres = async () => {
     const data = await fetchDeezer('/genre');
     return data && Array.isArray(data.data) ? data.data : (Array.isArray(data) ? data : []);
 };
 
-// Ensure query parameters are correctly encoded for search functions
 export const searchDeezerArtist = async (query) => {
     const data = await fetchDeezer(`/search/artist?q=${encodeURIComponent(query)}`);
-    return data ? data.data : [];
+    return data && Array.isArray(data.data) ? data.data : [];
 };
 
 export const searchDeezerTrack = async (query) => {
     const data = await fetchDeezer(`/search/track?q=${encodeURIComponent(query)}`);
-    return data ? data.data : [];
+    return data && Array.isArray(data.data) ? data.data : [];
 };
 
 export const searchDeezerAlbum = async (query) => {
     const data = await fetchDeezer(`/search/album?q=${encodeURIComponent(query)}`);
-    return data ? data.data : [];
+    return data && Array.isArray(data.data) ? data.data : [];
 };
 
 export const searchDeezerPlaylist = async (query) => {
     const data = await fetchDeezer(`/search/playlist?q=${encodeURIComponent(query)}`);
-    return data ? data.data : [];
+    return data && Array.isArray(data.data) ? data.data : [];
 };
