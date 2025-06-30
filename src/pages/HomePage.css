@@ -1,0 +1,19 @@
+/* src/pages/HomePage.css */
+.home-page {
+  padding: 20px;
+}
+
+.home-page h2 {
+  color: #4169e1; /* Royal Blue */
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e3f2fd; /* Light blue underline */
+  padding-bottom: 10px;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap to the next line */
+  gap: 20px; /* Space between cards */
+  justify-content: flex-start; /* Align cards to the start */
+  margin-bottom: 40px; /* Space after each grid section */
+}

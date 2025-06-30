@@ -1,38 +1,52 @@
-.App {
-  text-align: center;
+/* src/App.css */
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh; /* Ensures the container takes at least full viewport height */
+  overflow-x: hidden; /* Prevent horizontal scroll from layout issues */
+}
+
+.main-layout {
+  display: flex;
+  flex: 1; /* Allows main-layout to grow and take remaining space */
+  /* This flex direction will be controlled by Material-UI's Grid or Box components directly in React for responsiveness */
+}
+
+/* No specific @media queries here for flex-direction
+   because Material-UI's Grid/Box props (like `direction={{ xs: 'column', md: 'row' }}`)
+   will handle the stacking directly in the JS. */
+
+/* Optional: Basic styling for overall page content area if needed */
+.main-content {
+  flex-grow: 1; /* Allows content area to take up available space */
+  padding: 16px; /* Add some padding around the main content */
+}
+
+/* Adjustments for the AppBar (top bar) on mobile to accommodate a hamburger menu */
+.app-bar-mobile {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 8px 16px; /* Adjust padding as needed */
+  background-color: #1a2027; /* Match your app's header color */
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app-bar-mobile .MuiIconButton-root {
+  color: white;
 }

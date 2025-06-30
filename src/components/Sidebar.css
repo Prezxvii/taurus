@@ -1,0 +1,32 @@
+.sidebar {
+  width: 200px; /* Fixed width for sidebar */
+  background-color: #ffffff; /* White background */
+  padding: 1.5rem;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.03); /* Subtle shadow */
+  min-height: 100%; /* Ensure it stretches down */
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar nav li {
+  margin-bottom: 1rem;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #343a40; /* Dark text from your theme's text.primary */
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+  display: block; /* Make link block for better click area */
+  padding: 0.5rem 0;
+  border-radius: 4px;
+}
+
+.sidebar nav a:hover {
+  color: #007bff; /* Primary blue on hover */
+  background-color: #f0f8ff; /* Light blue background on hover */
+}

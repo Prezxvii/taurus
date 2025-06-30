@@ -1,0 +1,17 @@
+/* src/components/Header.css */
+.header {
+  background-color: #ffffff;
+  color: #0d47a1;
+  padding: 15px 20px; /* Slightly less padding to accommodate layout */
+  border-bottom: 1px solid #bbdefb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex; /* Use flexbox to align items */
+  justify-content: space-between; /* Space out title and search bar */
+  align-items: center; /* Vertically align items */
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.8em; /* Slightly smaller to fit */
+  color: #4169e1;
+}

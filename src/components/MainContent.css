@@ -1,0 +1,6 @@
+.main-content {
+  flex: 1; /* Allows main content to fill remaining space */
+  padding: 20px; /* Add some padding around content */
+  overflow-y: auto; /* Allow vertical scrolling if content overflows */
+  /* Remove any fixed heights or widths that prevent flex from working */
+}
